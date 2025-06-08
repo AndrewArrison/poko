@@ -1,0 +1,7 @@
+.clangd
+bin
+CMakeLists.txt
+fast.bat
+Makefile
+obj
+todo.md
