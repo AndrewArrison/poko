@@ -1,7 +1,7 @@
 // ================================================
 // File: texture.cpp
 // Created on: 2025-06-07 20:59:18
-// Last modified: 2025-06-08 16:23:21
+// Last modified: 2025-06-09 14:23:25
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -38,7 +38,8 @@ Texture::~Texture()
 
 void Texture::bind()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	// glBindTexture(GL_TEXTURE_2D, 0);
+	// glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 }
 

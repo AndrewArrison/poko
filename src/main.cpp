@@ -22,7 +22,7 @@ const unsigned int SCREEN_WIDTH = 800;
 // The height of the screen
 const unsigned int SCREEN_HEIGHT = 600;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 30.0f));
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -62,12 +62,12 @@ int main(int argc, char *argv[])
 
 
 	float vertices[] = {
-	    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	    -0.5f, -0.5f, -0.0f,  0.0f, 0.0f,
+	     0.5f, -0.5f, -0.0f,  1.0f, 0.0f,
+	     0.5f,  0.5f, -0.0f,  1.0f, 1.0f,
+	     0.5f,  0.5f, -0.0f,  1.0f, 1.0f,
+	    -0.5f,  0.5f, -0.0f,  0.0f, 1.0f,
+	    -0.5f, -0.5f, -0.0f,  0.0f, 0.0f,
 	};
 
 	unsigned int indices[] = {
@@ -88,24 +88,7 @@ int main(int argc, char *argv[])
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
-	// int width, height, nrChannels;
-	// unsigned char* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
-	// unsigned int texture;
-	// glGenTextures(1, &texture);
-	// glBindTexture(GL_TEXTURE_2D, texture);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// if (data) {
-	// 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	// 	glGenerateMipmap(GL_TEXTURE_2D);
-	// } else {
-	// 	std::cout << "Failed to load texture\n";
-	// }
-	// stbi_image_free(data);
-
-	Shader shader("vertex.glsl", "fragment.glsl");
+	// Shader shader("default.vs", "default.fs");
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -117,15 +100,17 @@ int main(int argc, char *argv[])
 	glBindVertexArray(0);
 
 	ResourceManager::instance()->loadTexture("wall.jpg", "TestTexture");
+	ResourceManager::instance()->loadShader("default", "default");
 	
-	shader.bind();
+	// shader.bind();
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::rotate(model, glm::radians(-0.0f), glm::vec3(1.0f, 0.5f, 0.0f));
 	model = glm::translate(model, glm::vec3(400.0f, 400.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(200.0f, 200.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 projection;
-	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 10.0f);
+	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
+	glfwSwapInterval(2);
 
 
     // OpenGL configuration
@@ -136,11 +121,14 @@ int main(int argc, char *argv[])
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//
+	ResourceManager::instance()->useTexture("TestTexture");
     while (!glfwWindowShouldClose(window))
     {
 		float currentFrame = (float)(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		float fps = 1.0f / deltaTime;
+		std::cout << fps << std::endl;
 
         glfwPollEvents();
 
@@ -149,14 +137,15 @@ int main(int argc, char *argv[])
 		
 
 		glm::mat4 view = camera.GetViewMatrix();
-		shader.bind();
-		shader.setMatrix4f("projection", projection);
-		shader.setMatrix4f("model", model);
-		shader.setMatrix4f("view", view);
+		// shader.bind();
+		ResourceManager::instance()->useShader("default");
+		ResourceManager::instance()->getShader("default")->setMatrix4f("projection", projection);
+		ResourceManager::instance()->getShader("default")->setMatrix4f("model", model);
+		ResourceManager::instance()->getShader("default")->setMatrix4f("view", view);
+		// shader.setMatrix4f("projection", projection);
+		// shader.setMatrix4f("model", model);
+		// shader.setMatrix4f("view", view);
 		
-		glActiveTexture(GL_TEXTURE0);
-		// glBindTexture(GL_TEXTURE_2D, ResourceManager::instance()->getTexture("TestTexture"));
-		ResourceManager::instance()->useTexture("TestTexture");
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -167,9 +156,11 @@ int main(int argc, char *argv[])
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	glDeleteProgram(shader.getId());
+	// glDeleteProgram(shader.getId());
 	
 	ResourceManager::instance()->deleteTexture("TestTexture");
+	ResourceManager::instance()->deleteShader("default");
+
     glfwTerminate();
     return 0;
 }

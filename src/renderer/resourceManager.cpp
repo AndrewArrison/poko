@@ -1,11 +1,13 @@
 // ================================================
 // File: resourceManager.cpp
 // Created on: 2025-06-08 15:01:45
-// Last modified: 2025-06-08 16:23:21
+// Last modified: 2025-06-09 15:13:46
 // Created by: Alwin R Ajeesh
 // ================================================
 #include "resourceManager.hpp"
+#include "shader.hpp"
 #include "texture.hpp"
+#include "../Timer.hpp"
 #include <iostream>
 #include <string>
 
@@ -42,20 +44,60 @@ Texture* ResourceManager::getTexture(const std::string& textureID)
 
 void ResourceManager::useTexture(const std::string& textureID)
 {
+	Timer timer;
 	m_TextureResource[textureID]->bind();
 }
 
 void ResourceManager::deleteTexture(const std::string& textureID)
 {
-	// m_TextureResource[textureID]
-	// glDeleteTextures(1, &m_TextureResource[textureID]);
 	m_TextureResource[textureID]->clean();
 	std::cout << "Deleted Texture\n";
 	delete m_TextureResource[textureID];
-	m_TextureResource.erase(textureID);
 	if (!glIsTexture(m_TextureResource[textureID]->getTextureID())) {
 		std::cout << "Really deleted\n";
 	} else {
 		std::cout << "mm not really\n";
 	}
+	m_TextureResource.erase(textureID);
+}
+
+//Shader
+bool ResourceManager::loadShader(const std::string& filename, const std::string& shaderID)
+{
+	Timer timer;
+	if (m_ShaderResource.find(shaderID) == m_ShaderResource.end())
+	{
+		Shader* tempShader = new Shader((filename + ".vs").c_str(), (filename + ".fs").c_str());
+		m_ShaderResource[shaderID] = tempShader;
+		std::cout << "Shader didnt exist, created and stored\n";
+		return true;
+	} 
+	else 
+	{
+		std::cout << "Shader exisites\n";
+		return true;
+	}
+}
+
+Shader* ResourceManager::getShader(const std::string& shaderID)
+{
+	return m_ShaderResource[shaderID];
+}
+
+void ResourceManager::useShader(const std::string& shaderID)
+{
+	m_ShaderResource[shaderID]->bind();
+}
+
+void ResourceManager::deleteShader(const std::string& shaderID)
+{
+	m_ShaderResource[shaderID]->clean();
+	std::cout << "Deleted Shader\n";
+	delete m_ShaderResource[shaderID];
+	if (!glIsShader(m_ShaderResource[shaderID]->getId())) {
+		std::cout << "Shader Deleted Really\n";
+	} else {
+		std::cout << "mm not really s\n";
+	}
+	m_ShaderResource.erase(shaderID);
 }

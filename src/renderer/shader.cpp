@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-07 21:29:55
+// Last modified: 2025-06-09 14:30:23
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -78,6 +78,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 void Shader::bind()
 {
 	glUseProgram(ID);
+}
+
+void Shader::clean()
+{
+	glDeleteShader(ID);
 }
 
 void Shader::setBoolean(const std::string& name, bool value) const
