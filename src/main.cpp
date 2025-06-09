@@ -1,3 +1,4 @@
+#include "entities/mesh.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
@@ -14,8 +15,8 @@
 // GLFW function declarations
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+// void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+// void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 // The Width of the screen
 const unsigned int SCREEN_WIDTH = 800;
@@ -55,49 +56,47 @@ int main(int argc, char *argv[])
     }
     glfwSetKeyCallback(window, key_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
+	// glfwSetCursorPosCallback(window, mouse_callback);
+	// glfwSetScrollCallback(window, scroll_callback);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 
-	float vertices[] = {
-	    -0.5f, -0.5f, -0.0f,  0.0f, 0.0f,
-	     0.5f, -0.5f, -0.0f,  1.0f, 0.0f,
-	     0.5f,  0.5f, -0.0f,  1.0f, 1.0f,
-	     0.5f,  0.5f, -0.0f,  1.0f, 1.0f,
-	    -0.5f,  0.5f, -0.0f,  0.0f, 1.0f,
-	    -0.5f, -0.5f, -0.0f,  0.0f, 0.0f,
-	};
-
-	unsigned int indices[] = {
-		0, 1, 2,
-		1, 2, 3
-	};
-	unsigned int VBO;
-	unsigned int VAO;
-	unsigned int EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	
-	// Shader shader("default.vs", "default.fs");
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	// float vertices[] = {
+	//     -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,
+	//      0.5f, -0.5f, 0.0f,  1.0f, 0.0f,
+	//      0.5f,  0.5f, 0.0f,  1.0f, 1.0f,
+	//     -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,
+	// };
+	//
+	// unsigned int indices[] = {
+	// 	0, 1, 2,
+	// 	0, 2, 3
+	// };
+	// unsigned int VBO;
+	// unsigned int VAO;
+	// unsigned int EBO;
+	// glGenVertexArrays(1, &VAO);
+	// glGenBuffers(1, &VBO);
+	// glGenBuffers(1, &EBO);
+	//
+	// glBindVertexArray(VAO);
+	// glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//
+	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//
+	// // Shader shader("default.vs", "default.fs");
+	//
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	// glEnableVertexAttribArray(0);
+	//
+	// glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	// glEnableVertexAttribArray(1);
+	// //
+	// glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// glBindVertexArray(0);
 
 	ResourceManager::instance()->loadTexture("wall.jpg", "TestTexture");
 	ResourceManager::instance()->loadShader("default", "default");
@@ -110,9 +109,9 @@ int main(int argc, char *argv[])
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 projection;
 	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
-	glfwSwapInterval(2);
+	glfwSwapInterval(1);
 
-
+	Mesh aText;
     // OpenGL configuration
     // --------------------
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -127,12 +126,10 @@ int main(int argc, char *argv[])
 		float currentFrame = (float)(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		float fps = 1.0f / deltaTime;
-		std::cout << fps << std::endl;
 
         glfwPollEvents();
 
-		glClearColor(0.2f, 0.4f, 0.7f, 1.0f);
+		glClearColor(0.2f, 0.4f, 0.4f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 
@@ -142,20 +139,18 @@ int main(int argc, char *argv[])
 		ResourceManager::instance()->getShader("default")->setMatrix4f("projection", projection);
 		ResourceManager::instance()->getShader("default")->setMatrix4f("model", model);
 		ResourceManager::instance()->getShader("default")->setMatrix4f("view", view);
-		// shader.setMatrix4f("projection", projection);
-		// shader.setMatrix4f("model", model);
-		// shader.setMatrix4f("view", view);
-		
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		aText.draw();
+		// glBindVertexArray(VAO);
+		// glDrawArrays(GL_TRIANGLES, 0, 6);
+		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		// glBindVertexArray(0);
         glfwSwapBuffers(window);
     }
 	
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	// glDeleteVertexArrays(1, &VAO);
+	// glDeleteBuffers(1, &VBO);
+	// glDeleteBuffers(1, &EBO);
 	// glDeleteProgram(shader.getId());
 	
 	ResourceManager::instance()->deleteTexture("TestTexture");
@@ -193,28 +188,28 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
-
-void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
-{
-	float xpos = (float)(xposIn);
-	float ypos = (float)(yposIn);
-
-	if (firstMouse) {
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = ypos - lastY;
-
-	lastX = xpos;
-	lastY = ypos;
-
-	camera.ProcessMouseMovement(xoffset, yoffset);
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	camera.ProcessMouseScroll((float)(yoffset));
-}
+//
+// void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+// {
+// 	float xpos = (float)(xposIn);
+// 	float ypos = (float)(yposIn);
+//
+// 	if (firstMouse) {
+// 		lastX = xpos;
+// 		lastY = ypos;
+// 		firstMouse = false;
+// 	}
+//
+// 	float xoffset = xpos - lastX;
+// 	float yoffset = ypos - lastY;
+//
+// 	lastX = xpos;
+// 	lastY = ypos;
+//
+// 	camera.ProcessMouseMovement(xoffset, yoffset);
+// }
+//
+// void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+// {
+// 	camera.ProcessMouseScroll((float)(yoffset));
+// }
