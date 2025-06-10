@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-09 14:30:23
+// Last modified: 2025-06-10 16:38:34
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -73,6 +73,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	}
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	std::cerr << "Shader created" << std::endl;
 }
 
 void Shader::bind()
