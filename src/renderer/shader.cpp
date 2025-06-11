@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-10 16:38:34
+// Last modified: 2025-06-11 21:02:24
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -79,6 +79,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 void Shader::bind()
 {
 	glUseProgram(ID);
+}
+
+void Shader::unbind()
+{
+	glUseProgram(0);
 }
 
 void Shader::clean()

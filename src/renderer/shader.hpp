@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.hpp
 // Created on: 2025-06-01 19:36:58
-// Last modified: 2025-06-09 15:10:18
+// Last modified: 2025-06-11 21:02:24
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -19,6 +19,7 @@ public:
 	Shader(const char* vertexPath, const char* fragmentPath);
 	~Shader() { std::cout << "des\n"; }
 	void bind();
+	void unbind();
 	void clean();
 	int getId() { return ID; }
 	void setBoolean(const std::string& name, bool value) const;

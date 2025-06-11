@@ -8,6 +8,7 @@
 #include <GLM/gtc/type_ptr.hpp>
 #include "renderer/camera.hpp"
 #include "renderer/resourceManager.hpp"
+#include "renderer/renderer.hpp"
 #include "entities/player.hpp"
 #include "Timer.hpp"
 
@@ -61,12 +62,14 @@ int main(int argc, char *argv[])
 
 	ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
 	ResourceManager::instance()->loadShader("../src/res/default", "default");
+	ResourceManager::instance()->loadShader("../src/res/quad", "quad");
 
-	Player player(glm::vec2(100, 100), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
+	Player player(glm::vec2(0, 100), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
 	
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 projection;
 	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
+	Renderer renderer(projection);
 	glfwSwapInterval(1);
 
     // OpenGL configuration
@@ -89,13 +92,15 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 view = camera.GetViewMatrix();
-		player.draw(view, projection);
+		// player.draw(view, projection);
+		renderer.drawQuad(glm::vec2(100.0f, 100.0f), glm::vec2(100.0f, 100.0f), view);
         
 		glfwSwapBuffers(window);
     }
 	
 	ResourceManager::instance()->deleteTexture("TestTexture");
 	ResourceManager::instance()->deleteShader("default");
+	ResourceManager::instance()->deleteShader("quad");
 
     glfwTerminate();
     return 0;

@@ -1,12 +1,13 @@
 // ================================================
 // File: mesh.cpp
 // Created on: 2025-06-09 23:57:28
-// Last modified: 2025-06-10 00:37:11
+// Last modified: 2025-06-11 19:01:03
 // Created by: Alwin R Ajeesh
 // ================================================
 
 #include "mesh.hpp"
 #include <GLAD/glad.h>
+#include <iostream>
 
 Mesh::Mesh()
 {
@@ -14,12 +15,12 @@ Mesh::Mesh()
 	float vertices[] = 
 	{
 		//ver			//tex
-		-0.5f, -0.5f,	0.0f, 0.0f,
-		 0.5f, -0.5f,	1.0f, 0.0f,
-		 0.5f,  0.5f,	1.0f, 1.0f,
-		-0.5f, -0.5f,	0.0f, 0.0f,
-		 0.5f,  0.5f,	1.0f, 1.0f,
-		-0.5f,  0.5f,	0.0f, 1.0f,
+		-1.0f, -1.0f,	0.0f, 0.0f,
+		 1.0f, -1.0f,	1.0f, 0.0f,
+		 1.0f,  1.0f,	1.0f, 1.0f,
+		-1.0f, -1.0f,	0.0f, 0.0f,
+		 1.0f,  1.0f,	1.0f, 1.0f,
+		-1.0f,  1.0f,	0.0f, 1.0f,
 	};
 	
 	glGenVertexArrays(1, &m_VAO);
@@ -41,6 +42,7 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+	std::cerr << " DELTEED \n";
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 }

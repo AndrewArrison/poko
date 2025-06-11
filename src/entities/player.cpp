@@ -1,7 +1,7 @@
 // ================================================
 // File: player.cpp
 // Created on: 2025-06-09 23:14:34
-// Last modified: 2025-06-10 21:00:55
+// Last modified: 2025-06-11 21:11:38
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -17,17 +17,25 @@ Player::Player(glm::vec2 pos, Shader& shader, Texture& texture)
 
 void Player::draw(glm::mat4& view, glm::mat4& projection)
 {
-
+	//trs
 	glm::mat4 model = glm::mat4(1.0f);
-	// model = glm::rotate(model, glm::radians(-0.0f), glm::vec3(1.0f, 0.5f, 0.0f));
+	
 	model = glm::translate(model, glm::vec3(m_Position, 0.0f));
-	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
+	//i guess that moving pivot point is not needed? when i try it, it rotates the not supposed way
+	// model = glm::translate(model, glm::vec3(50.0f, 50.0f, 0.0f));
+	// model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	// model = glm::translate(model, glm::vec3(-50.0f, -50.0f, 0.0f));
+	//
+	model = glm::scale(model, 0.5f * glm::vec3(100.0f, 100.0f, 0.0f));
+	
 	m_Shader.bind();
 	m_Texture.bind();
+	
 	m_Shader.setMatrix4f("model", model);
 	m_Shader.setMatrix4f("view", view);
 	m_Shader.setMatrix4f("projection", projection);
 
 	m_Mesh.draw();
+
 }
 //u = x / image_width and v = y / image_height.
