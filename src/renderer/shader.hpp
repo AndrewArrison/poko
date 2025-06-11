@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.hpp
 // Created on: 2025-06-01 19:36:58
-// Last modified: 2025-06-11 21:02:24
+// Last modified: 2025-06-11 22:21:28
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -26,6 +26,7 @@ public:
 	void setInteger(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;
 	void setVector2f(const std::string& name, float x, float y);
+	void setVector3f(const std::string& name, glm::vec3& value);
 	void setMatrix4f(const std::string& name, glm::mat4& value);
 
 private:

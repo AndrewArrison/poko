@@ -93,7 +93,8 @@ int main(int argc, char *argv[])
 
 		glm::mat4 view = camera.GetViewMatrix();
 		// player.draw(view, projection);
-		renderer.drawQuad(glm::vec2(100.0f, 100.0f), glm::vec2(100.0f, 100.0f), view);
+		// renderer.drawQuad(glm::vec2(0.0f, 0.0f), glm::vec3(0.3f, 0.432f, 0.1f),glm::vec2(100.0f, 100.0f), view);
+		renderer.drawSprite(*ResourceManager::instance()->getTexture("TestTexture"), glm::vec2(100.0f, 100.0f), view);
         
 		glfwSwapBuffers(window);
     }

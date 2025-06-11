@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-11 21:02:24
+// Last modified: 2025-06-11 22:24:10
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -109,6 +109,11 @@ void Shader::setFloat(const std::string& name, float value) const
 void Shader::setVector2f(const std::string& name, float x, float y) 
 {
 	glUniform2f(getUniformLocation(name), x, y);
+}
+
+void Shader::setVector3f(const std::string& name, glm::vec3& value) 
+{
+	glUniform3f(getUniformLocation(name), value.x, value.y, value.z);
 }
 
 void Shader::setMatrix4f(const std::string& name, glm::mat4& value)

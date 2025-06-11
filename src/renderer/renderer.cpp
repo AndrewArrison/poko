@@ -1,7 +1,7 @@
 // ================================================
 // File: renderer.cpp
 // Created on: 2025-06-11 18:58:24
-// Last modified: 2025-06-11 21:29:21
+// Last modified: 2025-06-11 22:47:04
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -55,9 +55,12 @@ void Renderer::initRenderData(glm::mat4& projection)
 	m_QuadShader.bind();
 	m_QuadShader.setMatrix4f("projection", projection);
 	m_QuadShader.unbind();
+	m_SpriteShader.bind();
+	m_SpriteShader.setMatrix4f("projection", projection);
+	m_SpriteShader.unbind();
 }
 
-void Renderer::drawQuad(glm::vec2 f_Position, glm::vec2 f_Scale, glm::mat4& view)
+void Renderer::drawQuad(glm::vec2 f_Position, glm::vec3 f_color, glm::mat4& view, glm::vec2 f_Scale)
 {
 	glm::mat4 model = glm::mat4(1.0f);
 	//trs
@@ -65,11 +68,12 @@ void Renderer::drawQuad(glm::vec2 f_Position, glm::vec2 f_Scale, glm::mat4& view
 	// model = glm::translate(model, glm::vec3(50.0f, 50.0f, 0.0f));
 	// model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	// model = glm::translate(model, glm::vec3(-50.0f, -50.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
+	model = glm::scale(model, 0.5f * glm::vec3(f_Scale, 0.0f));
 
 	m_QuadShader.bind();
 	
 	m_QuadShader.setMatrix4f("model", model);
+	m_QuadShader.setVector3f("color", f_color);
 	m_QuadShader.setMatrix4f("view", view);
 	
 	glBindVertexArray(m_VAO);
@@ -77,7 +81,23 @@ void Renderer::drawQuad(glm::vec2 f_Position, glm::vec2 f_Scale, glm::mat4& view
 	glBindVertexArray(0);
 }
 
-void Renderer::drawSprite(Texture& p_Texture, glm::vec2 f_Position, glm::vec2 f_Scale)
-{
+void Renderer::drawSprite(Texture& p_Texture, glm::vec2 f_Position, glm::mat4& view, glm::vec2 f_Scale)
+{	
+	glm::mat4 model = glm::mat4(1.0f);
+	//trs
+	model = glm::translate(model, glm::vec3(f_Position, 0.0f));
+	// model = glm::translate(model, glm::vec3(50.0f, 50.0f, 0.0f));
+	// model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	// model = glm::translate(model, glm::vec3(-50.0f, -50.0f, 0.0f));
+	model = glm::scale(model, 0.5f * glm::vec3(f_Scale, 0.0f));
 
+	m_SpriteShader.bind();
+	m_Texture.bind();
+	
+	m_SpriteShader.setMatrix4f("model", model);
+	m_SpriteShader.setMatrix4f("view", view);
+	
+	glBindVertexArray(m_VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 }
