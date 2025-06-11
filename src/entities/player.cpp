@@ -1,7 +1,7 @@
 // ================================================
 // File: player.cpp
 // Created on: 2025-06-09 23:14:34
-// Last modified: 2025-06-10 16:26:43
+// Last modified: 2025-06-10 21:00:55
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -30,3 +30,4 @@ void Player::draw(glm::mat4& view, glm::mat4& projection)
 
 	m_Mesh.draw();
 }
+//u = x / image_width and v = y / image_height.

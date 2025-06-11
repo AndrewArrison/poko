@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 
-	ResourceManager::instance()->loadTexture("wall.jpg", "TestTexture");
-	ResourceManager::instance()->loadShader("default", "default");
+	ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
+	ResourceManager::instance()->loadShader("../src/res/default", "default");
 
 	Player player(glm::vec2(100, 100), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
 	
