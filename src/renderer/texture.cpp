@@ -1,7 +1,7 @@
 // ================================================
 // File: texture.cpp
 // Created on: 2025-06-07 20:59:18
-// Last modified: 2025-06-10 20:45:57
+// Last modified: 2025-06-12 15:10:19
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -36,6 +36,7 @@ Texture::~Texture()
 	clean();
 }
 
+//TODO : take textureunit and bind to that , this may be insuffecent in future ?
 void Texture::bind()
 {
 	// glBindTexture(GL_TEXTURE_2D, 0);

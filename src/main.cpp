@@ -1,3 +1,4 @@
+#include <string>
 #define STB_IMAGE_IMPLEMENTATION
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
@@ -11,6 +12,7 @@
 #include "renderer/renderer.hpp"
 #include "entities/player.hpp"
 #include "Timer.hpp"
+#include "debug.hpp"
 
 // GLFW function declarations
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -58,7 +60,15 @@ int main(int argc, char *argv[])
 	// glfwSetScrollCallback(window, scroll_callback);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	
 
+	INFO_LOG("OPENGL VERSION : " + std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION))));
+	INFO_LOG("GLFW VERSION : " + std::string(glfwGetVersionString()));
+	
+	// DEBUG_LOG("LOG MESSAGE");
+	// INFO_LOG("INFO MESSAGE");
+	// WARN_LOG("WARN MESSAGE");
+	// ERROR_LOG("ERROR MESSAGE");
 
 	ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
 	ResourceManager::instance()->loadShader("../src/res/default", "default");
@@ -93,9 +103,9 @@ int main(int argc, char *argv[])
 
 		glm::mat4 view = camera.GetViewMatrix();
 		// player.draw(view, projection);
-		// renderer.drawQuad(glm::vec2(0.0f, 0.0f), glm::vec3(0.3f, 0.432f, 0.1f),glm::vec2(100.0f, 100.0f), view);
+		renderer.drawQuad(glm::vec2(0.0f, 0.0f), glm::vec3(0.3f, 0.432f, 0.1f), view);
 		renderer.drawSprite(*ResourceManager::instance()->getTexture("TestTexture"), glm::vec2(100.0f, 100.0f), view);
-        
+
 		glfwSwapBuffers(window);
     }
 	

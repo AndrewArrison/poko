@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.hpp
 // Created on: 2025-06-01 19:36:58
-// Last modified: 2025-06-11 22:21:28
+// Last modified: 2025-06-12 15:02:59
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -9,7 +9,6 @@
 
 #include <GLAD/glad.h>
 #include <GLM/ext/matrix_float4x4.hpp>
-#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -17,7 +16,7 @@ class Shader
 {
 public:
 	Shader(const char* vertexPath, const char* fragmentPath);
-	~Shader() { std::cout << "des\n"; }
+	~Shader() {}
 	void bind();
 	void unbind();
 	void clean();

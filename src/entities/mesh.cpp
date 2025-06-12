@@ -1,13 +1,12 @@
 // ================================================
 // File: mesh.cpp
 // Created on: 2025-06-09 23:57:28
-// Last modified: 2025-06-11 19:01:03
+// Last modified: 2025-06-12 15:09:00
 // Created by: Alwin R Ajeesh
 // ================================================
 
 #include "mesh.hpp"
 #include <GLAD/glad.h>
-#include <iostream>
 
 Mesh::Mesh()
 {
@@ -42,7 +41,6 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	std::cerr << " DELTEED \n";
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 }

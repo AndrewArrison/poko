@@ -1,11 +1,12 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-11 22:24:10
+// Last modified: 2025-06-12 15:07:36
 // Created by: Alwin R Ajeesh
 // ================================================
 
 #include "shader.hpp"
+#include "../debug.hpp"
 #include <GLM/gtc/type_ptr.hpp>
 #include <fstream>
 #include <iostream>
@@ -35,7 +36,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	}
 	catch(std::ifstream::failure& e)
 	{
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << e.what() << std::endl;
+		ERROR_LOG("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" + std::string(e.what()));
 	}
 	const char* vShaderSource = vertexSource.c_str();
 	const char* fShaderSource = fragmentSource.c_str();
@@ -50,7 +51,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+		ERROR_LOG("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + std::string(infoLog));
 	}
 
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -59,7 +60,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+		ERROR_LOG("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + std::string(infoLog));
 	}
 
 	ID = glCreateProgram();
@@ -69,11 +70,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glGetProgramiv(ID, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(ID, 512, nullptr, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINK_FAILED\n" << infoLog << std::endl;
+		ERROR_LOG("ERROR::SHADER::PROGRAM::LINK_FAILED\n" + std::string(infoLog));
 	}
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-	std::cerr << "Shader created" << std::endl;
+	INFO_LOG("Shader created : " + std::string(fragmentPath));
 }
 
 void Shader::bind()

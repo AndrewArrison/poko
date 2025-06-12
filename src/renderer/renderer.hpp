@@ -1,7 +1,7 @@
 // ================================================
 // File: renderer.hpp
 // Created on: 2025-06-11 18:58:06
-// Last modified: 2025-06-11 22:47:45
+// Last modified: 2025-06-11 23:11:00
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -25,5 +25,6 @@ private:
 
 	Shader& m_QuadShader;
 	Shader& m_SpriteShader;
+	//TODO : remove this and add textureID as pera to drawSprite caller, and retreive that from resource manager?
 	Texture& m_Texture;
 };
