@@ -70,13 +70,13 @@ int main(int argc, char *argv[])
 	// WARN_LOG("WARN MESSAGE");
 	// ERROR_LOG("ERROR MESSAGE");
 
-	ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
+	// ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
+	ResourceManager::instance()->loadTexture("../src/res/awall.jpg", "TestTexture");
 	ResourceManager::instance()->loadShader("../src/res/default", "default");
 	ResourceManager::instance()->loadShader("../src/res/quad", "quad");
 
 	Player player(glm::vec2(0, 100), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
 	
-	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 projection;
 	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
 	Renderer renderer(projection);
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 		glm::mat4 view = camera.GetViewMatrix();
 		// player.draw(view, projection);
 		renderer.drawQuad(glm::vec2(0.0f, 0.0f), glm::vec3(0.3f, 0.432f, 0.1f), view);
-		renderer.drawSprite(*ResourceManager::instance()->getTexture("TestTexture"), glm::vec2(100.0f, 100.0f), view);
+		renderer.drawSprite("TestTexture", glm::vec2(100.0f, 100.0f), view);
 
 		glfwSwapBuffers(window);
     }

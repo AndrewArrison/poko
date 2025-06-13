@@ -5,3 +5,5 @@ fast.bat
 Makefile
 obj
 todo.md
+compile_commands.json
+.cache

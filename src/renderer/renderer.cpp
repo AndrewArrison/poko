@@ -1,7 +1,7 @@
 // ================================================
 // File: renderer.cpp
 // Created on: 2025-06-11 18:58:24
-// Last modified: 2025-06-11 22:47:04
+// Last modified: 2025-06-12 20:14:52
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -10,8 +10,7 @@
 #include <GLM/ext/matrix_transform.hpp>
 
 Renderer::Renderer(glm::mat4& projection)
-	:m_QuadShader(*ResourceManager::instance()->getShader("quad")), m_SpriteShader(*ResourceManager::instance()->getShader("default")),
-	m_Texture(*ResourceManager::instance()->getTexture("TestTexture"))
+	:m_QuadShader(*ResourceManager::instance()->getShader("quad")), m_SpriteShader(*ResourceManager::instance()->getShader("default"))
 
 {
 	initRenderData(projection);
@@ -81,7 +80,7 @@ void Renderer::drawQuad(glm::vec2 f_Position, glm::vec3 f_color, glm::mat4& view
 	glBindVertexArray(0);
 }
 
-void Renderer::drawSprite(Texture& p_Texture, glm::vec2 f_Position, glm::mat4& view, glm::vec2 f_Scale)
+void Renderer::drawSprite(const std::string& textureID, glm::vec2 f_Position, glm::mat4& view, glm::vec2 f_Scale)
 {	
 	glm::mat4 model = glm::mat4(1.0f);
 	//trs
@@ -92,7 +91,7 @@ void Renderer::drawSprite(Texture& p_Texture, glm::vec2 f_Position, glm::mat4& v
 	model = glm::scale(model, 0.5f * glm::vec3(f_Scale, 0.0f));
 
 	m_SpriteShader.bind();
-	m_Texture.bind();
+	ResourceManager::instance()->useTexture(textureID);
 	
 	m_SpriteShader.setMatrix4f("model", model);
 	m_SpriteShader.setMatrix4f("view", view);

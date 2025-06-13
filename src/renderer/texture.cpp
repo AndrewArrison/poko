@@ -1,14 +1,15 @@
 // ================================================
 // File: texture.cpp
 // Created on: 2025-06-07 20:59:18
-// Last modified: 2025-06-12 15:10:19
+// Last modified: 2025-06-13 14:24:14
 // Created by: Alwin R Ajeesh
 // ================================================
 
-#include <iostream>
 #include <stb_image.h>
 #include "texture.hpp"
+#include "../debug.hpp"
 
+//TODO : maybe make fallback image a globle variable or find a way to encode that into the system? in case it is absent?
 Texture::Texture(const char* filename)
 {
 
@@ -25,7 +26,18 @@ Texture::Texture(const char* filename)
 		glGenerateMipmap(GL_TEXTURE_2D);
 		stbi_image_free(imageData);
 	} else {
-		std::cout << "Failed to load texture\n";
+		ERROR_LOG("Failed to create texture from file : " + std::string(filename));
+		stbi_image_free(imageData);
+		//fallback image loading
+		ERROR_LOG("Loading fallback texture");
+		imageData = stbi_load("../src/res/fallback.png", &m_Width, &m_Height, &m_Channels, 0);
+		if (imageData) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+			stbi_image_free(imageData);
+		} else {
+			ERROR_LOG("Failed to load fallback texture");
+		}
 		stbi_image_free(imageData);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
