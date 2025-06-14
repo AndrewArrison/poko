@@ -65,34 +65,29 @@ int main(int argc, char *argv[])
 	INFO_LOG("OPENGL VERSION : " + std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION))));
 	INFO_LOG("GLFW VERSION : " + std::string(glfwGetVersionString()));
 	
-	// DEBUG_LOG("LOG MESSAGE");
-	// INFO_LOG("INFO MESSAGE");
-	// WARN_LOG("WARN MESSAGE");
-	// ERROR_LOG("ERROR MESSAGE");
-
-	// ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
-	ResourceManager::instance()->loadTexture("../src/res/awall.jpg", "TestTexture");
+	ResourceManager::instance()->loadTexture("../src/res/wall.jpg", "TestTexture");
 	ResourceManager::instance()->loadShader("../src/res/default", "default");
 	ResourceManager::instance()->loadShader("../src/res/quad", "quad");
 
-	Player player(glm::vec2(0, 100), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
+	Player player(glm::vec2(300, 150), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
 	
 	glm::mat4 projection;
 	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
 	Renderer renderer(projection);
+	glm::mat4 view = camera.GetViewMatrix();
 	glfwSwapInterval(1);
-
+	float currentFrame = 0.0f;
     // OpenGL configuration
     // --------------------
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    // glEnable(GL_BLEND);
+    glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//
     while (!glfwWindowShouldClose(window))
     {
-		float currentFrame = (float)(glfwGetTime());
+		currentFrame = (float)(glfwGetTime());
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
@@ -101,11 +96,11 @@ int main(int argc, char *argv[])
 		glClearColor(0.2f, 0.4f, 0.4f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 view = camera.GetViewMatrix();
-		// player.draw(view, projection);
-		renderer.drawQuad(glm::vec2(0.0f, 0.0f), glm::vec3(0.3f, 0.432f, 0.1f), view);
-		renderer.drawSprite("TestTexture", glm::vec2(100.0f, 100.0f), view);
+		view = camera.GetViewMatrix();
 
+		player.draw(view, projection);
+		renderer.drawQuad(glm::vec2(250.0f, 250.0f), glm::vec3(0.3f, 0.432f, 0.1f), view);
+		renderer.drawSprite("TestTexture", glm::vec2(500.0f, 400.0f), view);
 		glfwSwapBuffers(window);
     }
 	
@@ -170,3 +165,16 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // {
 // 	camera.ProcessMouseScroll((float)(yoffset));
 // }
+//
+
+
+/*
+*
+* 		NOTES
+*
+*
+* -> dont try put that RDII thing in this project? please
+*
+*
+*
+*/

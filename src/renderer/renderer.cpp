@@ -1,7 +1,7 @@
 // ================================================
 // File: renderer.cpp
 // Created on: 2025-06-11 18:58:24
-// Last modified: 2025-06-12 20:14:52
+// Last modified: 2025-06-14 14:23:40
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -65,7 +65,7 @@ void Renderer::drawQuad(glm::vec2 f_Position, glm::vec3 f_color, glm::mat4& view
 	//trs
 	model = glm::translate(model, glm::vec3(f_Position, 0.0f));
 	// model = glm::translate(model, glm::vec3(50.0f, 50.0f, 0.0f));
-	// model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	// model = glm::translate(model, glm::vec3(-50.0f, -50.0f, 0.0f));
 	model = glm::scale(model, 0.5f * glm::vec3(f_Scale, 0.0f));
 

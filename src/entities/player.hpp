@@ -1,7 +1,7 @@
 // ================================================
 // File: player.hpp
 // Created on: 2025-06-09 23:14:24
-// Last modified: 2025-06-10 16:27:41
+// Last modified: 2025-06-14 15:00:50
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -24,6 +24,8 @@ public:
 private:
 
 	glm::vec2 m_Position;
+	glm::mat4 model;
+
 
 	Shader& m_Shader;
 	Texture& m_Texture;

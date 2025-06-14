@@ -1,7 +1,7 @@
 // ================================================
 // File: camera.hpp
 // Created on: 2025-06-01 21:34:30
-// Last modified: 2025-06-09 15:23:45
+// Last modified: 2025-06-14 15:32:17
 // Created by: Alwin R Ajeesh
 // ================================================
 #pragma once
@@ -24,7 +24,7 @@ enum Camera_Movement
 
 const float YAW = -90.0f;
 const float PITCH = 0.0f;
-const float SPEED = 100.5f;
+const float SPEED = 200.0f;
 const float SENSITIVITY = 0.09f;
 const float ZOOM = 40.0f;
 

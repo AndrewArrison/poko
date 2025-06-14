@@ -1,7 +1,7 @@
 // ================================================
 // File: shader.cpp
 // Created on: 2025-06-01 19:36:35
-// Last modified: 2025-06-12 15:07:36
+// Last modified: 2025-06-14 15:24:17
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -91,7 +91,7 @@ void Shader::clean()
 {
 	glDeleteShader(ID);
 }
-
+// TODO : give parameter useshader so can remoe call to bind unless its needed -> removes vebrose? ig for caller function
 void Shader::setBoolean(const std::string& name, bool value) const
 {
 	glUniform1i(getUniformLocation(name), value);
@@ -125,8 +125,9 @@ void Shader::setMatrix4f(const std::string& name, glm::mat4& value)
 GLint Shader::getUniformLocation(const std::string& name) const
 {
 	if (m_UniformLocations.find(name) != m_UniformLocations.end())
+	{
 		return m_UniformLocations[name];
-
+	}
 	GLint location = glGetUniformLocation(ID, name.c_str());
 	m_UniformLocations[name] = location;
 	return location;

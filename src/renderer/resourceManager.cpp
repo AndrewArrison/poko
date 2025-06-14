@@ -1,7 +1,7 @@
 // ================================================
 // File: resourceManager.cpp
 // Created on: 2025-06-08 15:01:45
-// Last modified: 2025-06-13 14:16:16
+// Last modified: 2025-06-14 15:31:07
 // Created by: Alwin R Ajeesh
 // ================================================
 #include "resourceManager.hpp"
@@ -11,6 +11,7 @@
 #include <string>
 
 //TODO : check if the key name exist and go to fallback name and warn dev, do not overwright IT WILL CAUSE PROBLEMS
+//TODO : needs automatic cleaning?
 ResourceManager* ResourceManager::s_pInstance = nullptr;
 
 bool ResourceManager::loadTexture(const char* filename, const std::string& textureID)
@@ -25,8 +26,8 @@ bool ResourceManager::loadTexture(const char* filename, const std::string& textu
 	} 
 	else 
 	{
-		ERROR_LOG("RELOADING TEXTURE!!!");
 		WARN_LOG("Texture Exist : " + textureID);
+		ERROR_LOG("RELOADING TEXTURE with same ID!!!");
 		return true;
 	}
 }
