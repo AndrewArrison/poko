@@ -7,3 +7,4 @@ obj
 todo.md
 compile_commands.json
 .cache
+src/glad.c
