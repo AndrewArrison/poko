@@ -1,16 +1,17 @@
-#include "physics/phy.hpp"
-#include <string>
 #define STB_IMAGE_IMPLEMENTATION
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string>
 #include <stb_image.h>
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
+#include <GLM/ext/vector_float2.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 #include "core/camera.hpp"
 #include "core/resourceManager.hpp"
 #include "core/renderer.hpp"
+#include "physics/phy.hpp"
 #include "entities/player.hpp"
 #include "Timer.hpp"
 #include "debug.hpp"
@@ -24,7 +25,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 30.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -32,6 +33,8 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+glm::vec4 r1 = {200, 200, 50, 50};
+glm::vec4 r2 = {190, 200, 50, 50};
 
 int main(int argc, char *argv[])
 {
@@ -72,12 +75,8 @@ int main(int argc, char *argv[])
 
 	Player player(glm::vec2(300, 150), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
 
-	//TEST
-	Physics::isRect();
-	//TEST
-	
 	glm::mat4 projection;
-	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
+	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -1.0f, 1.0f);
 	Renderer renderer(projection);
 	glm::mat4 view = camera.GetViewMatrix();
 	glfwSwapInterval(1);
@@ -85,8 +84,8 @@ int main(int argc, char *argv[])
     // OpenGL configuration
     // --------------------
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glEnable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//
@@ -99,13 +98,18 @@ int main(int argc, char *argv[])
         glfwPollEvents();
 
 		glClearColor(0.2f, 0.4f, 0.4f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
 		view = camera.GetViewMatrix();
+		// Physics::isRectColliding(r1.x, r2.x, r1.y, r2.y, r1.z, r2.z, r1.z, r2.z);
+		// player.draw(view, projection);
+		// renderer.drawQuad(glm::vec2(200.0f, 200.0f), glm::vec3(0.3f, 0.432f, 0.1f), view, glm::vec2(50.0f, 50.0f));
+		// renderer.drawSprite("TestTexture", glm::vec2(251.0f, 251.0f), view, glm::vec2(50.0f, 50.0f));
+		
+		renderer.drawQuad(glm::vec2(r1.x, r1.y), glm::vec3(0.3f, 0.432f, 0.1f), view, glm::vec2(50.0f, 50.0f));
+		renderer.drawSprite("TestTexture", glm::vec2(r2.x, r2.y), view, glm::vec2(50.0f, 50.0f));
+		Physics::isRectColliding(r1, r2);
 
-		player.draw(view, projection);
-		renderer.drawQuad(glm::vec2(250.0f, 250.0f), glm::vec3(0.3f, 0.432f, 0.1f), view);
-		renderer.drawSprite("TestTexture", glm::vec2(500.0f, 400.0f), view);
 		glfwSwapBuffers(window);
     }
 	
@@ -125,16 +129,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, true);
     }
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+	// 	camera.ProcessKeyboard(FORWARD, deltaTime);
+		r1.y += 5;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		// camera.ProcessKeyboard(BACKWARD, deltaTime);
+		r1.y -= 5;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		camera.ProcessKeyboard(LEFT, deltaTime);
+	// 	camera.ProcessKeyboard(LEFT, deltaTime);
+		r1.x -= 5;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		// camera.ProcessKeyboard(RIGHT, deltaTime);
+		r1.x += 5;
 	}
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS) {
 		camera.Zoom--;
