@@ -1,13 +1,13 @@
 // ================================================
 // File: player.hpp
 // Created on: 2025-06-09 23:14:24
-// Last modified: 2025-06-14 15:00:50
+// Last modified: 2025-06-17 13:12:08
 // Created by: Alwin R Ajeesh
 // ================================================
 
 #include "mesh.hpp"
-#include "../renderer/shader.hpp"
-#include "../renderer/texture.hpp"
+#include "../core/shader.hpp"
+#include "../core/texture.hpp"
 #include <GLM/glm.hpp>
 
 

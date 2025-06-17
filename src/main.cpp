@@ -1,3 +1,4 @@
+#include "physics/phy.hpp"
 #include <string>
 #define STB_IMAGE_IMPLEMENTATION
 #include <GLAD/glad.h>
@@ -7,9 +8,9 @@
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtc/type_ptr.hpp>
-#include "renderer/camera.hpp"
-#include "renderer/resourceManager.hpp"
-#include "renderer/renderer.hpp"
+#include "core/camera.hpp"
+#include "core/resourceManager.hpp"
+#include "core/renderer.hpp"
 #include "entities/player.hpp"
 #include "Timer.hpp"
 #include "debug.hpp"
@@ -70,6 +71,10 @@ int main(int argc, char *argv[])
 	ResourceManager::instance()->loadShader("../src/res/quad", "quad");
 
 	Player player(glm::vec2(300, 150), *ResourceManager::instance()->getShader("default"), *ResourceManager::instance()->getTexture("TestTexture"));
+
+	//TEST
+	Physics::isRect();
+	//TEST
 	
 	glm::mat4 projection;
 	projection = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f ,(float)SCREEN_HEIGHT, -10.0f, 100.0f);
