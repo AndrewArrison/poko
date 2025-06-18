@@ -1,11 +1,12 @@
 // ================================================
 // File: texture.hpp
 // Created on: 2025-06-06 15:32:47
-// Last modified: 2025-06-08 16:20:34
+// Last modified: 2025-06-18 14:03:38
 // Created by: Alwin R Ajeesh
 // ================================================
 #pragma once
 #include "GLAD/glad.h"
+#include <stb_image.h>
 
 
 class Texture

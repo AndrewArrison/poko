@@ -1,9 +1,10 @@
 // ================================================
 // File: renderer.hpp
 // Created on: 2025-06-11 18:58:06
-// Last modified: 2025-06-12 20:15:08
+// Last modified: 2025-06-18 12:55:08
 // Created by: Alwin R Ajeesh
 // ================================================
+#pragma once
 
 #include "shader.hpp"
 
