@@ -1,7 +1,7 @@
 // ================================================
 // File: game.hpp
 // Created on: 2025-06-18 12:18:06
-// Last modified: 2025-06-18 14:29:18
+// Last modified: 2025-06-19 15:05:27
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -9,6 +9,8 @@
 
 #include "core/camera.hpp"
 #include "core/renderer.hpp"
+#include "entities/player.hpp"
+#include "entities/ball.hpp"
 // #include <GLM/ext/matrix_float4x4.hpp>
 
 enum GameState
@@ -37,6 +39,9 @@ public:
 private:
 	Camera camera;
 	Renderer* renderer;
+	Player* player;
+	glm::vec2 r1 = { Width - 20 , 55};
+	Ball* ball;
 };
 
 

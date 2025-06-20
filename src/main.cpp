@@ -2,8 +2,7 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 #include "game.hpp"
-#include "core/resourceManager.hpp"
-#include "entities/player.hpp"
+// #include "core/resourceManager.hpp"
 #include "Timer.hpp"
 #include "debug.hpp"
 
@@ -72,7 +71,7 @@ int main(int argc, char *argv[])
 		TestGame.ProcessInput(deltaTime);
 		TestGame.Update(deltaTime);
 		
-		glClearColor(0.2f, 0.4f, 0.4f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 		
 		TestGame.Render();
