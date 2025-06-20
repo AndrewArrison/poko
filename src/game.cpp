@@ -1,7 +1,7 @@
 // ================================================
 // File: game.cpp
 // Created on: 2025-06-18 12:24:29
-// Last modified: 2025-06-19 15:35:02
+// Last modified: 2025-06-20 14:11:44
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -9,9 +9,8 @@
 #include <GLFW/glfw3.h>
 #include <GLM/ext/matrix_clip_space.hpp>
 #include <GLM/ext/vector_float2.hpp>
+#include <GLM/gtc/type_ptr.hpp>
 #include "core/resourceManager.hpp"
-#include "debug.hpp"
-#include "physics/phy.hpp"
 
 Game::Game(unsigned int width, unsigned int height)
 	:State(GAME_ACTIVE), Width(width), Height(height), Keys()
@@ -37,7 +36,7 @@ void Game::Init()
 	projection = glm::ortho(0.0f, (float)Width, 0.0f ,(float)Height, -1.0f, 1.0f);
 	renderer = new Renderer(projection);
 	player = new Player(glm::vec2(25, 60), *ResourceManager::instance()->getShader("quad"), projection);
-	ball = new Ball(glm::vec2(player->m_Position.x + 10 + 10, player->m_Position.y), glm::vec2(15, 15));
+	ball = new Ball(glm::vec2(400, 300), glm::vec2(15, 15));
 }
 
 void Game::ProcessInput(float dt)
@@ -74,7 +73,8 @@ void Game::ProcessInput(float dt)
 //poll move collide resolve update render
 void Game::Update(float dt)
 {
-	ball->move(dt, player->m_Position, r1);
+	// ball->move(dt, player->m_Position, r1);
+	ball->move(dt, r1, player->m_Position);
 }
 
 void Game::Render()
@@ -86,7 +86,8 @@ void Game::Render()
 	}
 
 	renderer->drawQuad(glm::vec2(r1.x, r1.y), glm::vec3(1, 1, 1), view, glm::vec2(20, 90.0f));
-	player->draw(view);
+	renderer->drawQuad(player->m_Position, glm::vec3(1, 1, 1), view, glm::vec2(20, 90.0f));
+	// player->draw(view);
 	renderer->drawQuad(ball->m_Position, glm::vec3(1,1,1), view, ball->m_Size);
 	// renderer->drawSprite("TestTexture", glm::vec2(r2.x, r2.y), view, glm::vec2(50.0f, 50.0f));
 

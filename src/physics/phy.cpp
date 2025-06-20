@@ -1,7 +1,7 @@
 // ================================================
 // File: phy.cpp
 // Created on: 2025-06-17 13:08:02
-// Last modified: 2025-06-18 14:34:12
+// Last modified: 2025-06-20 13:17:43
 // Created by: Alwin R Ajeesh
 // ================================================
 
@@ -28,7 +28,7 @@ bool Physics::isRectColliding(int x1, int x2, int y1, int y2, int h1, int h2, in
 //z = h
 //w = w
 //x,y,z,w
-bool Physics::isRectColliding(glm::vec4& rect1, glm::vec4& rect2)
+bool Physics::isRectColliding(glm::vec4 rect1, glm::vec4 rect2)
 {
 	// if (
 	// 	rect1.x < rect2.x + rect2.w &&
